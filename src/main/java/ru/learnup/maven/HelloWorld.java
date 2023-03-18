@@ -1,18 +1,20 @@
 package ru.learnup.maven;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import com.google.gson.Gson;
 
 public class HelloWorld {
-	public static void main(String[] args) throws URISyntaxException, IOException {
-		System.out.println("Hello world!");
-		URL resource= HelloWorld.class.getResource("1.txt");
-		System.out.println(resource);
-		assert resource != null;
-		Files.readAllLines(Path.of(resource.toURI()))
-				.forEach(System.out::println);
+	public static void main(String[] args) {
+//		System.out.println("Hello world!");
+		User user =new User("Vova", 27);
+		System.out.println(user);
+		Gson gson = new Gson();
+		String json = gson.toJson(user);
+		System.out.println(json);
+		User newUser = gson.fromJson(json, User.class);
+		System.out.println("newUser: " + newUser);
+
+		String s = "{\"name\":\"Olga\",\"age\":13}";
+		User olga = gson.fromJson(s, User.class);
+		System.out.println("olga: " + olga);
 	}
 }

@@ -26,7 +26,6 @@
 <!--                     <target>15</target>-->
 <!--                 </configuration>-->
 <!--             </plugin>-->
-
              <plugin>
                  <groupId>org.apache.maven.plugins</groupId>
                  <artifactId>maven-surefire-plugin</artifactId>
@@ -35,16 +34,44 @@
 
              <plugin>
                  <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-jar-plugin</artifactId>
-                 <version>2.4</version>
+                 <artifactId>maven-assembly-plugin</artifactId>
+                 <version>3.3.0</version>
                  <configuration>
+                     <finalName>testAssembly</finalName>
+                     <appendAssemblyId>false</appendAssemblyId> <!--не добавлять ID при сборке проекта-->
+                     <descriptorRefs> <!--дескрипторы сборки-->
+                         <descriptorRef>
+                             jar-with-dependencies<!--сборка со всеми зависимостями-->
+                         </descriptorRef>
+                     </descriptorRefs>
                      <archive>
                          <manifest>
                              <MainClass>ru.learnup.maven.HelloWorld</MainClass>
                          </manifest>
                      </archive>
                  </configuration>
+                 <executions> <!--чтобы повесить сборку на какую-то часть жизненного цикла-->
+                     <execution>
+                         <goals> <!--цели плагина, к которым прикреплять эту сборку-->
+                               <goal>single</goal>
+                         </goals>
+                         <phase>package</phase><!--фаза Lifecycle, к которой прикреплять эту сборку-->
+                     </execution>
+                 </executions>
              </plugin>
+
+<!--             <plugin>-->
+<!--                 <groupId>org.apache.maven.plugins</groupId>-->
+<!--                 <artifactId>maven-jar-plugin</artifactId>-->
+<!--                 <version>2.4</version>-->
+<!--                 <configuration>-->
+<!--                     <archive>-->
+<!--                         <manifest>-->
+<!--                             <MainClass>ru.learnup.maven.HelloWorld</MainClass>-->
+<!--                         </manifest>-->
+<!--                     </archive>-->
+<!--                 </configuration>-->
+<!--             </plugin>-->
          </plugins>
      </build>
 
@@ -57,6 +84,20 @@
             <version> ${jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
+
     </dependencies>
 
 </project>
